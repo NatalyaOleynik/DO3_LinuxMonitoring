@@ -1,0 +1,18 @@
+#!/bin/bash
+
+hostname=$(hostname)
+timezone=$(timedatectl | grep "Time zone" | awk '{print $3 " " $4 " " $5}')
+user=$(whoami | awk '{print $0}')
+os=$(lsb_release -d | awk '{print $2 " " $3 " " $4}')
+date=$(date +"%d %B %Y %H:%M:%S" | awk '{print $0}')
+uptime=$(uptime -p | awk '{print $2 " " $3 " " $4 " " $5}')
+uptime_sec=$(cat /proc/uptime | awk '{print $1}')
+ip=$(hostname -I | awk '{print $1}')
+mask=$(ipcalc $ip | grep Netmask | awk '{print $2}')
+gateway=$(ip route | grep default | awk '{print $3}')
+ram_total=$(free | grep Mem | awk '{printf "%.3f GB\n", $2/1073741824}')
+ram_used=$(free | grep Mem | awk '{printf "%.3f GB\n", $3/1073741824}')
+ram_free=$(free | grep Mem | awk '{printf "%.3f GB\n", $4/1073741824}')
+space_root=$(df /root | grep '^/' | awk '{printf "%.2f MB\n", $2/1048576}')
+space_root_used=$(df /root | grep '^/' | awk '{printf "%.2f MB\n", $3/1048576}')
+space_root_free=$(df /root | grep '^/' | awk '{printf "%.2f MB\n", $4/1048576}')
